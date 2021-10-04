@@ -1,14 +1,10 @@
-BINARY=minesweeper-api
-VERSION=0.1.0
-
 build:
-	go build -o ${BINARY} cmd/main.go
-
+	go build -o bin/cmd/minesweeper-api app/cmd/minesweeper-api/main.go
 run:
-	@go run cmd/main.go
+	go run cmd/minesweeper-api/main.go
 
 test:
-	@go test ./...
+	go test ./...
 
 # docker
 up:

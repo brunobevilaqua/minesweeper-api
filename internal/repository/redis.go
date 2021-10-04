@@ -57,7 +57,7 @@ func (r RedisStore) FindByPlayerName(name string) (*model.Game, error) {
 func NewRedisStore() RedisStore {
 	c, err := connect()
 	if err != nil {
-		log.Fatal("Cannot connect to redis")
+		log.Fatal(err)
 	}
 
 	return RedisStore{c}
@@ -67,6 +67,6 @@ func connect() (redis.Conn, error) {
 	if url := os.Getenv("REDIS_CLOUD_URL"); url != "" {
 		return redis.DialURL(url, redis.DialPassword(os.Getenv("REDIS_CLOUD_PASSWORD")))
 	} else {
-		return redis.DialURL("localhost:6379")
+		return redis.DialURL(os.Getenv("REDIS_LOCAL_URL"))
 	}
 }

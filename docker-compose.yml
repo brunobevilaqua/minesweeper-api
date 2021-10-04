@@ -1,18 +1,16 @@
-version: "3.3"
+version: "3.6"
 services:
   app:
-    build:
-      context: . 
-      dockerfile: Dockerfile 
+    build: .
     ports:
       - "8080:8080" 
-    links: 
-      - redis
+    depends_on: 
+      - redis_db
     environment: 
-      REDIS_LOCAL_URL: "redis:6379" 
+      REDIS_LOCAL_URL: "redis://redis_db:6379" 
     networks:
       - minesweeper
-  redis:
+  redis_db:
     image: "redis:alpine" 
     networks:
       - minesweeper

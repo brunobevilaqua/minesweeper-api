@@ -14,16 +14,18 @@ func main() {
 	controller := controller.NewController(service)
 
 	router := gin.Default()
-	router.GET("/game:id", controller.Search.FindByGameId)
-	router.GET("/game:name", controller.Search.FindByUserName)
-	router.POST("/game", func(c *gin.Context) {
+	api := router.Group("/api")
+
+	api.GET("/game/:id", controller.Search.FindByGameId)
+
+	api.POST("/game", func(c *gin.Context) {
 		controller.Maintenance.CreateNewGame(*c)
 	})
-	router.PUT("/game", func(c *gin.Context) {
+	api.PUT("/game", func(c *gin.Context) {
 		controller.Maintenance.Click(*c)
 	})
 
-	router.Run("localhost:8080")
+	router.Run()
 
 	defer redis.Close()
 }

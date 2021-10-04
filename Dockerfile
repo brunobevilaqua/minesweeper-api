@@ -1,9 +1,7 @@
-FROM golang:1.14.2
+FROM golang
 
-
-RUN mkdir /app
-ADD . /app
 WORKDIR /app
-RUN make build
-EXPOSE 8080
-CMD ["./cmd/minesweeper-api"]
+COPY . .
+RUN go build -o bin cmd/minesweeper-api/main.go
+EXPOSE 40000
+CMD ["./bin"]
