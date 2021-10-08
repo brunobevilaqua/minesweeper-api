@@ -14,19 +14,28 @@ type RedisStore struct {
 }
 
 func (r RedisStore) Save(g model.Game) (*model.Game, error) {
-	// TODO
-	return nil, nil
+	gameJson, err := json.Marshal(g)
+	if err != nil {
+		return nil, err
+	}
+
+	_, err = r.Do("SET", g.Id, gameJson)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return r.FindById(g.Id)
 }
 
 func (r RedisStore) FindById(id string) (*model.Game, error) {
-	value, err := redis.String(r.Do("GET", "game.id"+id))
+	value, err := redis.String(r.Do("GET", id))
 
 	if err != nil {
 		return nil, err
 	}
 
 	var game model.Game
-
 	err = json.Unmarshal([]byte(value), &game)
 
 	if err != nil {
@@ -65,8 +74,10 @@ func NewRedisStore() RedisStore {
 
 func connect() (redis.Conn, error) {
 	if url := os.Getenv("REDIS_CLOUD_URL"); url != "" {
+		log.Print("[REDIS] - Connecting to cloud redis...")
 		return redis.DialURL(url, redis.DialPassword(os.Getenv("REDIS_CLOUD_PASSWORD")))
 	} else {
-		return redis.DialURL(os.Getenv("REDIS_LOCAL_URL"))
+		log.Print("[REDIS] - Connecting to local redis...")
+		return redis.DialURL("redis://localhost:6379")
 	}
 }
