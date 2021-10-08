@@ -16,12 +16,12 @@ func main() {
 	router := gin.Default()
 	api := router.Group("/api")
 
-	api.GET("/game/:id", controller.Search.FindByGameId)
+	api.GET("/games/:id", controller.Search.FindByGameId)
 
-	api.POST("/game", func(c *gin.Context) {
+	api.POST("/games", func(c *gin.Context) {
 		controller.Maintenance.CreateNewGame(*c)
 	})
-	api.PUT("/game", func(c *gin.Context) {
+	api.PUT("/games", func(c *gin.Context) {
 		controller.Maintenance.Click(*c)
 	})
 

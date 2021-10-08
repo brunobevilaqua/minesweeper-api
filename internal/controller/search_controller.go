@@ -19,7 +19,7 @@ func (controller SearchController) FindByUserName(c *gin.Context) {
 	response, err := controller.service.FindByPlayerName(name)
 
 	if err != nil {
-		c.JSON(err.StatusCode, err)
+		c.AbortWithStatusJSON(err.StatusCode, gin.H{"type": err.Type, "message": err.Message})
 		return
 	}
 
@@ -31,7 +31,7 @@ func (controller SearchController) FindByGameId(c *gin.Context) {
 	response, err := controller.service.FindByGameId(id)
 
 	if err != nil {
-		c.JSON(err.StatusCode, err)
+		c.AbortWithStatusJSON(err.StatusCode, gin.H{"type": err.Type, "message": err.Message})
 		return
 	}
 

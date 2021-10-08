@@ -27,7 +27,7 @@ func (controller MaintenanceController) CreateNewGame(c gin.Context) {
 	response, err := controller.Service.CreateNewGame(request)
 
 	if err != nil {
-		c.JSON(err.StatusCode, err)
+		c.AbortWithStatusJSON(err.StatusCode, gin.H{"type": err.Type, "message": err.Message})
 		return
 	}
 
@@ -38,14 +38,14 @@ func (controller MaintenanceController) Click(c gin.Context) {
 	request := dto.ClickGameRequest{}
 
 	if err := c.BindJSON(&request); err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
 	response, err := controller.Service.Click(request)
 
 	if err != nil {
-		c.JSON(err.StatusCode, err)
+		c.AbortWithStatusJSON(err.StatusCode, gin.H{"type": err.Type, "message": err.Message})
 		return
 	}
 
