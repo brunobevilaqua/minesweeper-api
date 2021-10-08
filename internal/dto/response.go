@@ -15,8 +15,7 @@ func NewResponse(g model.Game) *Response {
 		PlayerName:     g.Player.Name,
 		GameId:         g.Id,
 		NumberOfClicks: g.Clicks,
-		Status:         g.GetStatus(),
-		Points:         g.Points,
+		Status:         g.Status,
 	}
 
 	return &r
