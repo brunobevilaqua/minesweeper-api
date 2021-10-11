@@ -31,7 +31,7 @@ func (controller MaintenanceController) CreateNewGame(c gin.Context) {
 		return
 	}
 
-	c.JSON(200, response)
+	c.JSON(201, response)
 }
 
 func (controller MaintenanceController) Click(c gin.Context) {
