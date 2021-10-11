@@ -16,7 +16,7 @@ const (
 )
 
 type MaintenanceServiceInterface interface {
-	PerformAction(id string, d dto.ActionRequest) (*dto.GameResultsResponse, *dto.GameUpdateResponse, *errors.ApiError)
+	PerformAction(id string, d dto.ActionRequest) (*dto.GameResponse, *errors.ApiError)
 	CreateNewGame(d dto.CreateNewGameRequest) (*dto.GameResponse, *errors.ApiError)
 }
 
@@ -29,13 +29,18 @@ func NewMaintenanceService(r repository.Repository, s SearchServiceInterface) Ma
 	return MaintenanceService{store: r, searchService: s}
 }
 
-func (s MaintenanceService) PerformAction(id string, request dto.ActionRequest) (*dto.GameResultsResponse, *dto.GameUpdateResponse, *errors.ApiError) {
+func (s MaintenanceService) PerformAction(id string, request dto.ActionRequest) (*dto.GameResponse, *errors.ApiError) {
 	game, board, err := s.searchService.FindGameAndBord(id)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	if game.Status == model.GAME_STATUS_LOST {
-		return nil, nil, errors.NewApiError(errors.LOST_GAME_ERROR)
+		return nil, errors.NewApiError(errors.LOST_GAME_ERROR)
+	}
+
+	// checks if game has a valid status...
+	if game.Status != model.GAME_STATUS_PLAYING {
+		return nil, errors.NewApiError(errors.GAME_ALREADY_ENDED)
 	}
 
 	switch request.Action {
@@ -44,14 +49,14 @@ func (s MaintenanceService) PerformAction(id string, request dto.ActionRequest) 
 	case FLAG_ACTION:
 		return s.flag(request.Row, request.Column, *game, *board)
 	default:
-		return nil, nil, errors.NewApiError(errors.INVALID_ACTION_ERROR)
+		return nil, errors.NewApiError(errors.INVALID_ACTION_ERROR)
 	}
 }
 
-func (s MaintenanceService) flag(row, col int, g model.Game, b model.Board) (*dto.GameResultsResponse, *dto.GameUpdateResponse, *errors.ApiError) {
+func (s MaintenanceService) flag(row, col int, g model.Game, b model.Board) (*dto.GameResponse, *errors.ApiError) {
 	cell := &b.Grid[row][col]
-	if cell.Status == model.CELL_CLICKED {
-		return nil, nil, errors.NewApiError(errors.CELL_ALREADY_CLICKED_ERROR)
+	if cell.Status == model.CELL_CLICKED || cell.Status == model.CELL_EXPANDED {
+		return nil, errors.NewApiError(errors.CELL_ALREADY_CLICKED_ERROR)
 	} else if cell.Status == model.CELL_FLAGGED {
 		b.Flags -= 1
 		if cell.Mine { // removed flag from a mine
@@ -66,35 +71,34 @@ func (s MaintenanceService) flag(row, col int, g model.Game, b model.Board) (*dt
 		cell.Status = model.CELL_FLAGGED
 	}
 
-	err := s.saveBoard(b)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	// checks if game ended or not
+	// checks if game ended, which means that all mines were discovered/flagged.
 	if b.BoardEnded() {
 		// game won, update game on redis
 		g.EndTime = time.Now()
 		g.Status = model.GAME_STATUS_WON
-		s.saveGame(g)
-
-		// create response
-		response := dto.NewGameResultsResponse(g.Status, g.StartTime, g.EndTime, g.PlayerName, b.Clicks, dto.NewGameBoardDto(g.Status, b))
-		return &response, nil, nil
-	} else {
-		response := dto.NewGameUpdateResponse(dto.NewGameBoardDto(g.Status, b))
-		return nil, &response, nil
 	}
+
+	err := s.saveBoard(b)
+	if err != nil {
+		return nil, err
+	}
+
+	response := dto.NewGameResponse(
+		dto.NewBoardDto(b.Rows, b.Cols, b.NumberOfMines, b.Clicks, b.MinesDiscovered, b.Grid, b.MinesPositions),
+		dto.NewGameDto(g.Id, g.PlayerName, g.Status, g.StartTime, g.EndTime),
+	)
+
+	return &response, nil
 }
 
-func (s *MaintenanceService) click(row, col int, g model.Game, b model.Board) (*dto.GameResultsResponse, *dto.GameUpdateResponse, *errors.ApiError) {
+func (s *MaintenanceService) click(row, col int, g model.Game, b model.Board) (*dto.GameResponse, *errors.ApiError) {
 	boardUpdate := b // used in case of rollback.
 	gameUpdate := g  // used in case of rollback.
 
 	cell := &boardUpdate.Grid[row][col]
 	// returns an error when cell already clicked
-	if cell.Status == model.CELL_CLICKED {
-		return nil, nil, errors.NewApiError(errors.CELL_ALREADY_CLICKED_ERROR)
+	if cell.Status == model.CELL_CLICKED || cell.Status == model.CELL_EXPANDED {
+		return nil, errors.NewApiError(errors.CELL_ALREADY_CLICKED_ERROR)
 	}
 
 	boardUpdate.Clicks += 1
@@ -107,12 +111,15 @@ func (s *MaintenanceService) click(row, col int, g model.Game, b model.Board) (*
 
 		err := s.updateGameAndBoard(g, gameUpdate, b, boardUpdate)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		// returns response saying that user lost game and revelaing all the mines...
-		response := dto.NewGameResultsResponse(gameUpdate.Status, gameUpdate.StartTime, gameUpdate.EndTime, gameUpdate.PlayerName, boardUpdate.Clicks, dto.NewGameBoardDto(gameUpdate.Status, boardUpdate))
-		return &response, nil, nil
+		response := dto.NewGameResponse(
+			dto.NewBoardDto(boardUpdate.Rows, boardUpdate.Cols, boardUpdate.NumberOfMines, boardUpdate.Clicks, boardUpdate.MinesDiscovered, boardUpdate.Grid, boardUpdate.MinesPositions),
+			dto.NewGameDto(gameUpdate.Id, gameUpdate.PlayerName, gameUpdate.Status, gameUpdate.StartTime, gameUpdate.EndTime),
+		)
+		return &response, nil
 	}
 
 	// when cell not clicked and not a mine, proceed expanding the other cells around.
@@ -131,8 +138,11 @@ func (s *MaintenanceService) click(row, col int, g model.Game, b model.Board) (*
 	// updating board data on redis.
 	s.saveBoard(boardUpdate)
 
-	response := dto.NewGameUpdateResponse(dto.NewGameBoardDto(gameUpdate.Status, boardUpdate))
-	return nil, &response, nil
+	response := dto.NewGameResponse(
+		dto.NewBoardDto(boardUpdate.Rows, boardUpdate.Cols, boardUpdate.NumberOfMines, boardUpdate.Clicks, boardUpdate.MinesDiscovered, boardUpdate.Grid, boardUpdate.MinesPositions),
+		dto.NewGameDto(gameUpdate.Id, gameUpdate.PlayerName, gameUpdate.Status, gameUpdate.StartTime, gameUpdate.EndTime),
+	)
+	return &response, nil
 }
 
 func (s MaintenanceService) CreateNewGame(request dto.CreateNewGameRequest) (*dto.GameResponse, *errors.ApiError) {
@@ -162,7 +172,9 @@ func (s MaintenanceService) CreateNewGame(request dto.CreateNewGameRequest) (*dt
 		return nil, err
 	} else {
 		response := dto.NewGameResponse(
-			dto.NewBoardDto(board.Rows, board.Cols, board.NumberOfMines, board.Clicks), dto.NewGameDto(game.Id, game.PlayerName, game.Status))
+			dto.NewBoardDto(board.Rows, board.Cols, board.NumberOfMines, board.Clicks, board.MinesDiscovered, board.Grid, board.MinesPositions),
+			dto.NewGameDto(game.Id, game.PlayerName, game.Status, game.StartTime, game.EndTime),
+		)
 		return &response, nil
 	}
 }

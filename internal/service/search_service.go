@@ -39,7 +39,11 @@ func (s SearchService) FindByGameId(id string) (*dto.GameResponse, *errors.ApiEr
 		return nil, errors.NewApiError(errors.NO_RECORDS_FOUND_ERROR)
 	}
 
-	response := dto.NewGameResponse(dto.NewBoardDto(board.Rows, board.Cols, board.NumberOfMines, board.Clicks), dto.NewGameDto(game.Id, game.PlayerName, game.Status))
+	response := dto.NewGameResponse(
+		dto.NewBoardDto(board.Rows, board.Cols, board.NumberOfMines, board.Clicks, board.MinesDiscovered, board.Grid, board.MinesPositions),
+		dto.NewGameDto(game.Id, game.PlayerName, game.Status, game.StartTime, game.EndTime),
+	)
+
 	return &response, nil
 }
 

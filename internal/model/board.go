@@ -14,16 +14,16 @@ const (
 	MAX_DEFAULT_MINES = 5
 )
 
+type CellStatus string
+
 // Cell Status Constants
 const (
-	CELL_UNCLIKED CellStatus = iota
-	CELL_CLICKED
-	CELL_FLAGGED
-	CELL_EXPLODED
-	CELL_EXPANDED
+	CELL_UNCLIKED CellStatus = "Not Clicked"
+	CELL_CLICKED  CellStatus = "Clicked"
+	CELL_FLAGGED  CellStatus = "Flagged"
+	CELL_EXPLODED CellStatus = "Exploded"
+	CELL_EXPANDED CellStatus = "Expanded"
 )
-
-type CellStatus int
 
 type Position struct {
 	Row int `json:"x"`
@@ -78,7 +78,7 @@ func NewBoard(rows, cols, mines int, gameId string) Board {
 	for r := 0; r < totalOfRows; r++ {
 		var row []Cell
 		for c := 0; c < totalOfColumns; c++ {
-			cell := Cell{Pos: Position{Row: r, Col: c}}
+			cell := Cell{Pos: Position{Row: r, Col: c}, Status: CELL_UNCLIKED}
 			row = append(row, cell)
 		}
 		b.Grid = append(b.Grid, row)
@@ -193,22 +193,37 @@ func (c *Cell) setNearbyAndUpdateMinesCountrer(cell Cell) {
 
 func (b *Board) ExpandNearbyCell(currentCell Cell) {
 	if !currentCell.Evaluated {
-		cell := &b.Grid[currentCell.Pos.Row][currentCell.Pos.Col]
-		cell.Evaluated = true
-		if !cell.Mine && cell.NumberOfNearbyMines == 0 {
-			cell.Status = CELL_EXPANDED
+		// cell := &b.Grid[currentCell.Pos.Row][currentCell.Pos.Col]
+		b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Evaluated = true
+		// cell.Evaluated = true
+		// if !cell.Mine && cell.NumberOfNearbyMines == 0 {
+		if !b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Mine && b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].NumberOfNearbyMines == 0 {
+			b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Status = CELL_EXPANDED
 
-			for _, position := range currentCell.NearbyCells {
-				nearbyCell := &b.Grid[position.Row][position.Col]
-				if nearbyCell.Evaluated {
+			for i := 0; i < len(currentCell.NearbyCells); i++ {
+				x := currentCell.NearbyCells[i].Row
+				y := currentCell.NearbyCells[i].Col
+
+				if b.Grid[x][y].Evaluated {
 					continue
 				}
-				nearbyCell.Evaluated = true
-				if !nearbyCell.Mine && nearbyCell.NumberOfNearbyMines == 0 {
-					nearbyCell.Status = CELL_EXPANDED
+				b.Grid[x][y].Evaluated = true
+				if !b.Grid[x][y].Mine && b.Grid[x][y].NumberOfNearbyMines == 0 {
+					b.Grid[x][y].Status = CELL_EXPANDED
 					continue
 				}
 			}
+			// for _, position := range currentCell.NearbyCells {
+			// 	nearbyCell := &b.Grid[position.Row][position.Col]
+			// 	if nearbyCell.Evaluated {
+			// 		continue
+			// 	}
+			// 	nearbyCell.Evaluated = true
+			// 	if !nearbyCell.Mine && nearbyCell.NumberOfNearbyMines == 0 {
+			// 		nearbyCell.Status = CELL_EXPANDED
+			// 		continue
+			// 	}
+			// }
 		}
 	}
 }

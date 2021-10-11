@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-type GameStatus string
+type GameStatus int
 
 const (
-	GAME_STATUS_PLAYING GameStatus = "Playing..."
-	GAME_STATUS_LOST    GameStatus = "Game Over!"
-	GAME_STATUS_WON     GameStatus = "Won"
+	GAME_STATUS_PLAYING GameStatus = iota
+	GAME_STATUS_LOST
+	GAME_STATUS_WON
 )
 
 type Game struct {

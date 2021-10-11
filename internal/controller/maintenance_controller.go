@@ -35,14 +35,15 @@ func (controller MaintenanceController) CreateNewGame(c gin.Context) {
 }
 
 func (controller MaintenanceController) Click(c gin.Context) {
-	request := dto.ClickGameRequest{}
+	id := c.Param("id")
+	request := dto.ActionRequest{}
 
 	if err := c.BindJSON(&request); err != nil {
 		c.AbortWithStatusJSON(http.StatusBadRequest, err)
 		return
 	}
 
-	response, err := controller.Service.Click(request)
+	response, err := controller.Service.PerformAction(id, request)
 
 	if err != nil {
 		c.AbortWithStatusJSON(err.StatusCode, gin.H{"type": err.Type, "message": err.Message})

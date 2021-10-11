@@ -32,12 +32,7 @@ type GameResultsResponse struct {
 func NewGameResultsResponse(status model.GameStatus, startTime, endTime time.Time, playerName string, clicks int, dto GameBoardDto) GameResultsResponse {
 	response := GameResultsResponse{}
 
-	if status == model.GAME_STATUS_LOST {
-		response.Data.GameStatus = "Game Over - You Lost!"
-	} else {
-		response.Data.GameStatus = "You Win - Congratulations!"
-	}
-
+	response.Data.GameStatus = status.GetString()
 	response.Data.StartTime = startTime
 	response.Data.EndTime = endTime
 	response.Data.PlayerName = playerName
