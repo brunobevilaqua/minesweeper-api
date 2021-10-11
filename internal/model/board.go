@@ -11,7 +11,7 @@ const (
 	MIN_DEFAULT_ROWS  = 5
 	MIN_DEFAULT_COLS  = 5
 	MIN_DEFAULT_MINES = 8
-	MAX_DEFAULT_MINES = 5
+	MAX_DEFAULT_MINES = 32
 )
 
 type CellStatus string
