@@ -1,0 +1,279 @@
+{
+    "data": {
+        "game": {
+            "id": "a9789c36-dcbe-499e-8cf3-9e556e099a90",
+            "playerName": "Bruno",
+            "status": "Still Playing...",
+            "startTime": "2021-10-11T20:38:05.930255-03:00",
+            "endTime": "2021-10-11T20:38:05.930255-03:00"
+        },
+        "board": {
+            "columns": 5,
+            "rows": 5,
+            "numberOfMines": 8,
+            "clicks": 0,
+            "discoveredMines": 0,
+            "grid": [
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 0,
+                        "y": 0
+                    },
+                    "numberOfNearbyMines": 3,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 0,
+                        "y": 1
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 0,
+                        "y": 2
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 0,
+                        "y": 3
+                    },
+                    "numberOfNearbyMines": 2,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 0,
+                        "y": 4
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 1,
+                        "y": 0
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 1,
+                        "y": 1
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 1,
+                        "y": 2
+                    },
+                    "numberOfNearbyMines": 4,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 1,
+                        "y": 3
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 1,
+                        "y": 4
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 2,
+                        "y": 0
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 2,
+                        "y": 1
+                    },
+                    "numberOfNearbyMines": 4,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 2,
+                        "y": 2
+                    },
+                    "numberOfNearbyMines": 4,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 2,
+                        "y": 3
+                    },
+                    "numberOfNearbyMines": 3,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 2,
+                        "y": 4
+                    },
+                    "numberOfNearbyMines": 2,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 3,
+                        "y": 0
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 3,
+                        "y": 1
+                    },
+                    "numberOfNearbyMines": 2,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 3,
+                        "y": 2
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 3,
+                        "y": 3
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": true
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 3,
+                        "y": 4
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 4,
+                        "y": 0
+                    },
+                    "numberOfNearbyMines": 0,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 4,
+                        "y": 1
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 4,
+                        "y": 2
+                    },
+                    "numberOfNearbyMines": 2,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 4,
+                        "y": 3
+                    },
+                    "numberOfNearbyMines": 2,
+                    "mine": false
+                },
+                {
+                    "status": "Not Clicked",
+                    "position": {
+                        "x": 4,
+                        "y": 4
+                    },
+                    "numberOfNearbyMines": 1,
+                    "mine": false
+                }
+            ],
+            "minesCoordinates": [
+                {
+                    "x": 1,
+                    "y": 1
+                },
+                {
+                    "x": 1,
+                    "y": 3
+                },
+                {
+                    "x": 0,
+                    "y": 1
+                },
+                {
+                    "x": 0,
+                    "y": 2
+                },
+                {
+                    "x": 3,
+                    "y": 3
+                },
+                {
+                    "x": 3,
+                    "y": 2
+                },
+                {
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "x": 2,
+                    "y": 0
+                }
+            ]
+        }
+    }
+}

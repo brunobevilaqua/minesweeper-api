@@ -70,7 +70,7 @@ func setValue(v, max, min int) int {
 func NewBoard(rows, cols, mines int, gameId string) Board {
 	totalOfRows := setValue(rows, MAX_DEFAULT_ROWS, MIN_DEFAULT_ROWS)
 	totalOfColumns := setValue(cols, MAX_DEFAULT_COLS, MIN_DEFAULT_COLS)
-	totalOfMines := setValue(cols, MAX_DEFAULT_MINES, MIN_DEFAULT_MINES)
+	totalOfMines := setValue(mines, MAX_DEFAULT_MINES, MIN_DEFAULT_MINES)
 
 	b := Board{Cols: totalOfColumns, Rows: totalOfRows, NumberOfMines: totalOfMines, GameId: gameId}
 
