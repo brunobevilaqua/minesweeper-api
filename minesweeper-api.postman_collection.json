@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "ac25a042-7c73-42c2-b296-59eff95e5c91",
+		"name": "minesweeper-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Game and Board By Game Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/game/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"game",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Perform Action (Click or Flag)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"action\": \"click\",\n\t\"row\": 0,\n\t\"column\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/games/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"games",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "0a98753c-8837-4b31-b805-4d15c9cbfc82"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create New game",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"playerName\": \"Bruno Bevilaqua de Bem\",\n\t\"numberOfMines\": 4,\n\t\"numberOfColumns\": 2,\n\t\"numberOfRows\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/games/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"games",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
