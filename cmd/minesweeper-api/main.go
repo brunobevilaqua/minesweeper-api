@@ -21,7 +21,7 @@ func main() {
 	api.POST("/games", func(c *gin.Context) {
 		controller.Maintenance.CreateNewGame(*c)
 	})
-	api.PUT("/games", func(c *gin.Context) {
+	api.PUT("/games/:id", func(c *gin.Context) {
 		controller.Maintenance.Click(*c)
 	})
 
