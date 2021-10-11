@@ -1,11 +1,12 @@
 package repository
 
-import (
-	"minesweeper-api/internal/model"
-)
+import "minesweeper-api/internal/model"
 
 type Repository interface {
-	Save(g model.Game) (*model.Game, error)
-	FindById(id string) (*model.Game, error)
-	FindByPlayerName(name string) (*model.Game, error)
+	SaveGame(model.Game) error
+	SaveBoard(model.Board) error
+	FindGameById(id string) (*model.Game, error)
+	FindBoardById(id string) (*model.Board, error)
+	DeleteBoardById(id string)
+	DeleteGameById(id string)
 }
