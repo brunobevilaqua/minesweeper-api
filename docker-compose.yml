@@ -1,15 +1,5 @@
 version: "3.6"
 services:
-  app:
-    build: .
-    ports:
-      - "8080:8080" 
-    depends_on: 
-      - redis_db
-    environment: 
-      REDIS_LOCAL_URL: "redis://redis_db:6379" 
-    networks:
-      - minesweeper
   redis_db:
     image: "redis:alpine" 
     networks:
