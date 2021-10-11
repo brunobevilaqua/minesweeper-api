@@ -11,6 +11,6 @@ func NewPlayer(n string) (*Player, *errors.ApiError) {
 	if n != "" {
 		return &Player{Name: n}, nil
 	} else {
-		return nil, errors.NewApiError(errors.InvalidUserName)
+		return nil, errors.NewApiError(errors.INVALID_USER_NAME_ERROR)
 	}
 }

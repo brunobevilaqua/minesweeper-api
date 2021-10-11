@@ -3,42 +3,45 @@ package model
 import (
 	"minesweeper-api/pkg/errors"
 	"time"
-
-	"github.com/google/uuid"
 )
 
+type GameStatus string
+
 const (
-	GAME_STATUS_PLAYING = "Playing..."
-	GAME_STATUS_LOST    = "Game Over!"
-	GAME_STATUS_WON     = "Won"
+	GAME_STATUS_PLAYING GameStatus = "Playing..."
+	GAME_STATUS_LOST    GameStatus = "Game Over!"
+	GAME_STATUS_WON     GameStatus = "Won"
 )
 
 type Game struct {
-	Player    *Player   `json:"Player"`
-	Board     *Board    `json:"Board"`
-	StartTime time.Time `json:"startTime"`
-	EndTime   time.Time `json:"endTime"`
-	Clicks    int       `json:"clicks"`
-	Status    string    `json:"status"`
-	Id        string    `json:"id"`
+	PlayerName string     `json:"PlayerName"`
+	StartTime  time.Time  `json:"startTime"`
+	EndTime    time.Time  `json:"endTime"`
+	Status     GameStatus `json:"status"`
+	Id         string     `json:"id"`
 }
 
-func NewGame(playerName string, rows, cols, mines int) (*Game, *errors.ApiError) {
-	player, err := NewPlayer(playerName)
-
-	if err != nil {
-		return nil, err
+func NewGame(playerName string, rows, cols, mines int, gameId string) (*Game, *errors.ApiError) {
+	if playerName == "" {
+		return nil, errors.NewApiError(errors.INVALID_USER_NAME_ERROR)
 	}
 
-	board := NewBoard(rows, cols, mines)
-
 	return &Game{
-		Player:    player,
-		Board:     board,
-		StartTime: time.Now(),
-		EndTime:   time.Now(),
-		Clicks:    0,
-		Id:        uuid.NewString(),
-		Status:    GAME_STATUS_PLAYING,
+		PlayerName: playerName,
+		StartTime:  time.Now(),
+		EndTime:    time.Now(),
+		Id:         gameId,
+		Status:     GAME_STATUS_PLAYING,
 	}, nil
+}
+
+func (s GameStatus) GetString() string {
+	switch s {
+	case GAME_STATUS_LOST:
+		return "Game Over - You Lost!"
+	case GAME_STATUS_WON:
+		return "You Won - Congratulations!"
+	default:
+		return "Still Playing..."
+	}
 }
