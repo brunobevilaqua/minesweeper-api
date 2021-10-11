@@ -24,6 +24,7 @@ const (
 	UPDATE_CELL_STATUS_ERROR
 	UPDATE_GAME_ERROR
 	UPDATE_BOARD_ERROR
+	GAME_ALREADY_ENDED
 )
 
 func NewApiError(e ErrorType) *ApiError {
@@ -94,6 +95,11 @@ func (et ErrorType) getErrorByType() *ApiError {
 		message := "Error Trying to update Game."
 		statusCode := http.StatusInternalServerError
 		typee := "database"
+		return &ApiError{Message: message, Type: typee, StatusCode: statusCode}
+	case GAME_ALREADY_ENDED:
+		message := "Game Already Ended!"
+		statusCode := http.StatusBadRequest
+		typee := "invalid_json"
 		return &ApiError{Message: message, Type: typee, StatusCode: statusCode}
 	}
 
