@@ -21,16 +21,16 @@ type MaintenanceServiceInterface interface {
 }
 
 type MaintenanceService struct {
-	searchService SearchServiceInterface
-	store         repository.Repository
+	SearchService SearchServiceInterface
+	Store         repository.Repository
 }
 
 func NewMaintenanceService(r repository.Repository, s SearchServiceInterface) MaintenanceService {
-	return MaintenanceService{store: r, searchService: s}
+	return MaintenanceService{Store: r, SearchService: s}
 }
 
 func (s MaintenanceService) PerformAction(id string, request dto.ActionRequest) (*dto.GameResponse, *errors.ApiError) {
-	game, board, err := s.searchService.FindGameAndBord(id)
+	game, board, err := s.SearchService.FindGameAndBord(id)
 	if err != nil {
 		return nil, err
 	}
@@ -168,7 +168,7 @@ func (s MaintenanceService) CreateNewGame(request dto.CreateNewGameRequest) (*dt
 	}
 
 	if err := s.saveGame(*game); err != nil {
-		s.store.DeleteBoardById(gameId)
+		s.Store.DeleteBoardById(gameId)
 		return nil, err
 	} else {
 		response := dto.NewGameResponse(
@@ -180,7 +180,7 @@ func (s MaintenanceService) CreateNewGame(request dto.CreateNewGameRequest) (*dt
 }
 
 func (s MaintenanceService) saveGame(g model.Game) *errors.ApiError {
-	err := s.store.SaveGame(g)
+	err := s.Store.SaveGame(g)
 	if err != nil {
 		return errors.NewApiError(errors.UPDATE_GAME_ERROR)
 	}
@@ -188,7 +188,7 @@ func (s MaintenanceService) saveGame(g model.Game) *errors.ApiError {
 }
 
 func (s MaintenanceService) saveBoard(b model.Board) *errors.ApiError {
-	err := s.store.SaveBoard(b)
+	err := s.Store.SaveBoard(b)
 	if err != nil {
 		return errors.NewApiError(errors.UPDATE_BOARD_ERROR)
 	}

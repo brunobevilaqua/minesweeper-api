@@ -15,11 +15,11 @@ type SearchServiceInterface interface {
 }
 
 type SearchService struct {
-	store repository.Repository
+	Store repository.Repository
 }
 
 func NewSearchService(r repository.Repository) SearchService {
-	return SearchService{store: r}
+	return SearchService{Store: r}
 }
 
 func (s SearchService) FindByGameId(id string) (*dto.GameResponse, *errors.ApiError) {
@@ -27,13 +27,13 @@ func (s SearchService) FindByGameId(id string) (*dto.GameResponse, *errors.ApiEr
 		return nil, errors.NewApiError(errors.INVALID_PARAMETER_ERROR)
 	}
 
-	game, err := s.store.FindGameById(id)
+	game, err := s.Store.FindGameById(id)
 
 	if err != nil {
 		return nil, errors.NewApiError(errors.NO_RECORDS_FOUND_ERROR)
 	}
 
-	board, err := s.store.FindBoardById(id)
+	board, err := s.Store.FindBoardById(id)
 
 	if err != nil {
 		return nil, errors.NewApiError(errors.NO_RECORDS_FOUND_ERROR)
@@ -48,7 +48,7 @@ func (s SearchService) FindByGameId(id string) (*dto.GameResponse, *errors.ApiEr
 }
 
 func (s SearchService) FindBoardById(id string) (*model.Board, *errors.ApiError) {
-	board, err := s.store.FindBoardById(id)
+	board, err := s.Store.FindBoardById(id)
 	if err != nil {
 		apiError := errors.NewApiError(errors.CUSTOM_ERROR)
 		apiError.Message = err.Error()
@@ -63,7 +63,7 @@ func (s SearchService) FindBoardById(id string) (*model.Board, *errors.ApiError)
 }
 
 func (s SearchService) FindGame(id string) (*model.Game, *errors.ApiError) {
-	game, err := s.store.FindGameById(id)
+	game, err := s.Store.FindGameById(id)
 	if err != nil {
 		apiError := errors.NewApiError(errors.CUSTOM_ERROR)
 		apiError.Message = err.Error()
