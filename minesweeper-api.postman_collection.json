@@ -11,7 +11,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/game/:id",
+					"raw": "http://localhost:8080/api/games/:id",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -19,16 +19,17 @@
 					"port": "8080",
 					"path": [
 						"api",
-						"game",
+						"games",
 						":id"
 					],
 					"variable": [
 						{
 							"key": "id",
-							"value": ""
+							"value": "eb61a4eb-fb16-41e3-b923-ab95391934e2"
 						}
 					]
-				}
+				},
+				"description": "# Response\n### Example:\n```\n{\n    \"data\": {\n        \"game\": {\n            \"id\": \"ee4ed6ed-f25a-4122-ac9c-7974a9696392\",\n            \"playerName\": \"Bruno Bevilaqua de Bem\",\n            \"status\": \"Game Over - You Lost!\",\n            \"startTime\": \"2021-10-11T11:45:18.993949-03:00\",\n            \"endTime\": \"2021-10-11T11:56:40.287936-03:00\"\n        },\n        \"board\": {\n            \"columns\": 12,\n            \"rows\": 12,\n            \"numberOfMines\": 5,\n            \"clicks\": 3,\n            \"discoveredMines\": 0,\n            \"grid\": [\n                {\n                    \"status\": \"Not Clicked\",\n                    \"position\": {\n                        \"x\": 0,\n                        \"y\": 0\n                    },\n                    \"numberOfNearbyMines\": 1,\n                    \"mine\": false\n                },\n                {\n                    \"status\": \"Not Clicked\",\n                    \"position\": {\n                        \"x\": 0,\n                        \"y\": 1\n                    },\n                    \"numberOfNearbyMines\": 1,\n                    \"mine\": false\n                },\n                {\n                    \"status\": \"Not Clicked\",\n                    \"position\": {\n                        \"x\": 0,\n                        \"y\": 2\n                    },\n                    \"numberOfNearbyMines\": 1,\n                    \"mine\": false\n                },\n... omitting the rest of the response\n```"
 			},
 			"response": []
 		},
@@ -39,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"action\": \"click\",\n\t\"row\": 0,\n\t\"column\": 2\n}",
+					"raw": "{\n\t\"action\": \"flag\", \n\t\"row\": 3,\n\t\"column\": 0\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -61,10 +62,11 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "0a98753c-8837-4b31-b805-4d15c9cbfc82"
+							"value": "eb61a4eb-fb16-41e3-b923-ab95391934e2"
 						}
 					]
-				}
+				},
+				"description": "# **Request**:\n\n\n```\n{\n\t\"action\": \"click\", \n\t\"row\": 6,\n\t\"column\": 8 \n}\n```\nor \n```\n{\n\t\"action\": \"flag\", \n\t\"row\": 6,\n\t\"column\": 8 \n}\n```"
 			},
 			"response": []
 		},
@@ -75,7 +77,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"playerName\": \"Bruno Bevilaqua de Bem\",\n\t\"numberOfMines\": 4,\n\t\"numberOfColumns\": 2,\n\t\"numberOfRows\": 2\n}",
+					"raw": "{\n\t\"playerName\": \"Bruno Bevilaqua\",\n\t\"numberOfMines\": 8,\n\t\"numberOfColumns\": 5,\n\t\"numberOfRows\": 5\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -94,7 +96,8 @@
 						"games",
 						""
 					]
-				}
+				},
+				"description": "# Request\n### Example:\n```\n{\n\t\"playerName\": \"Bruno Bevilaqua\",\n\t\"numberOfMines\": 8,\n\t\"numberOfColumns\": 5,\n\t\"numberOfRows\": 5\n}\n```\n\n# Response\n### Example:\n```\n \"data\": {\n        \"game\": {\n            \"id\": \"f01c2b7c-c927-41ad-8120-fd20c57a09e6\",\n            \"playerName\": \"Bruno Bevilaqua\",\n            \"status\": \"Still Playing...\",\n            \"startTime\": \"2021-10-11T12:46:30.957613-03:00\",\n            \"endTime\": \"2021-10-11T12:46:30.957613-03:00\"\n        },\n        \"board\": {\n            \"columns\": 5,\n            \"rows\": 5,\n            \"numberOfMines\": 8,\n            \"clicks\": 0,\n            \"discoveredMines\": 0,\n            \"grid\": [\n                {\n                    \"status\": \"Not Clicked\",\n                    \"position\": {\n                        \"x\": 0,\n                        \"y\": 0\n                    },\n                    \"numberOfNearbyMines\": 1,\n                    \"mine\": false\n                },\n                {\n                    \"status\": \"Not Clicked\",\n                    \"position\": {\n                        \"x\": 0,\n                        \"y\": 1\n                    },\n                    \"numberOfNearbyMines\": 3,\n                    \"mine\": false\n                },\n// omitting the remaining cells...\n}\n```"
 			},
 			"response": []
 		}
