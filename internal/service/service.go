@@ -3,13 +3,16 @@ package service
 import "minesweeper-api/internal/repository"
 
 type Service struct {
-	Search      SearchService
-	Maintenance MaintenanceService
+	Search      SearchServiceInterface
+	Maintenance MaintenanceServiceInterface
 }
 
 func NewService(repository repository.Repository) Service {
-	s := Service{Search: NewSearchService(repository),
-		Maintenance: NewMaintenanceService(repository)}
+	searchService := NewSearchService(repository)
+	maintenanceService := NewMaintenanceService(repository, searchService)
+
+	s := Service{Search: searchService,
+		Maintenance: maintenanceService}
 
 	return s
 }
