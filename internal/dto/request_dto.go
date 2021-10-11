@@ -7,8 +7,8 @@ type CreateNewGameRequest struct {
 	NumberOfRows    int    `json:"numberOfRows"`
 }
 
-type ClickGameRequest struct {
-	GameId string `json:"gameId"`
+type ActionRequest struct {
+	Action string `json:"action"` // flag or click
 	Row    int    `json:"row"`
 	Column int    `json:"column"`
 }
