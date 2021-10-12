@@ -41,7 +41,9 @@ MAX_DEFAULT_MINES = 8
 - cURL: ```curl --location --request GET 'http://localhost:8080/api/games/eb61a4eb-fb16-41e3-b923-ab95391934e2'```
 
 ### 3. Send a Click of Flag Action
-Request should have `row`, `col` and also the `action`. Possible actions are: `"action": "click"` or `"action": "flag"`
+Request should have `row`, `col` and also the `action`. Possible actions are: `"action": "click"` or `"action": "flag"`.
+Sending a request with `"action":"flag"` for a cell that is already flagged will then remove the flag of it. 
+
 - Endpoint: `PUT /api/games/:id`
 - cURL: ```curl --location --request PUT 'http://localhost:8080/api/games/eb61a4eb-fb16-41e3-b923-ab95391934e2' \
 --header 'Content-Type: application/json' \
