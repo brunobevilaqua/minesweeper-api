@@ -24,9 +24,9 @@ func NewRedisStore() RedisStore {
 }
 
 func connect() (redis.Conn, error) {
-	if url := os.Getenv("REDIS_CLOUD_URL"); url != "" {
+	if url := os.Getenv("REDIS_URL"); url != "" {
 		log.Print("[REDIS] - Connecting to cloud redis...")
-		return redis.DialURL(url, redis.DialPassword(os.Getenv("REDIS_CLOUD_PASSWORD")))
+		return redis.DialURL(url)
 	} else {
 		log.Print("[REDIS] - Connecting to local redis...")
 		return redis.DialURL("redis://localhost:6379")

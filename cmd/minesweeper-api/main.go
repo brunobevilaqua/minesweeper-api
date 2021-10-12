@@ -4,6 +4,7 @@ import (
 	"minesweeper-api/internal/controller"
 	"minesweeper-api/internal/repository"
 	"minesweeper-api/internal/service"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +26,11 @@ func main() {
 		controller.Maintenance.Click(*c)
 	})
 
-	router.Run()
+	if port := os.Getenv("PORT"); port != "" {
+		router.Run(port)
+	} else {
+		router.Run()
+	}
 
 	defer redis.Close()
 }
