@@ -193,12 +193,10 @@ func (c *Cell) setNearbyAndUpdateMinesCountrer(cell Cell) {
 
 func (b *Board) ExpandNearbyCell(currentCell Cell) {
 	if !currentCell.Evaluated {
-		// cell := &b.Grid[currentCell.Pos.Row][currentCell.Pos.Col]
-		b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Evaluated = true
-		// cell.Evaluated = true
-		// if !cell.Mine && cell.NumberOfNearbyMines == 0 {
-		if !b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Mine && b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].NumberOfNearbyMines == 0 {
-			b.Grid[currentCell.Pos.Row][currentCell.Pos.Col].Status = CELL_EXPANDED
+		cell := &b.Grid[currentCell.Pos.Row][currentCell.Pos.Col]
+		cell.Evaluated = true
+		if !cell.Mine && cell.NumberOfNearbyMines == 0 {
+			cell.Status = CELL_EXPANDED
 
 			for i := 0; i < len(currentCell.NearbyCells); i++ {
 				x := currentCell.NearbyCells[i].Row
@@ -213,17 +211,6 @@ func (b *Board) ExpandNearbyCell(currentCell Cell) {
 					continue
 				}
 			}
-			// for _, position := range currentCell.NearbyCells {
-			// 	nearbyCell := &b.Grid[position.Row][position.Col]
-			// 	if nearbyCell.Evaluated {
-			// 		continue
-			// 	}
-			// 	nearbyCell.Evaluated = true
-			// 	if !nearbyCell.Mine && nearbyCell.NumberOfNearbyMines == 0 {
-			// 		nearbyCell.Status = CELL_EXPANDED
-			// 		continue
-			// 	}
-			// }
 		}
 	}
 }
