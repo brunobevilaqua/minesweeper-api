@@ -51,7 +51,7 @@ curl --location --request POST 'https://calm-island-98291.herokuapp.com/api/game
 ```
 
 ### 2. Get Game By Game Id
-- Endpoint: `GET /api/games/:id`
+- Endpoint: `GET /api/games/:id` (id = gameId)
 ```
 curl --location --request GET 'http://localhost:8080/api/games/eb61a4eb-fb16-41e3-b923-ab95391934e2'
 ```
@@ -66,7 +66,7 @@ curl --location --request GET 'https://calm-island-98291.herokuapp.com/api/games
 Request should have `row`, `col` and also the `action`. Possible actions are: `"action": "click"` or `"action": "flag"`.
 Sending a request with `"action":"flag"` for a cell that is already flagged will then remove the flag of it. 
 
-- Endpoint: `PUT /api/games/:id`
+- Endpoint: `PUT /api/games/:id` (id = gameId)
 ```
 curl --location --request PUT 'http://localhost:8080/api/games/eb61a4eb-fb16-41e3-b923-ab95391934e2' \
 --header 'Content-Type: application/json' \
