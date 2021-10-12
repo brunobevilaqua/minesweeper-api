@@ -102,9 +102,17 @@ func (r RedisStore) FindBoardById(id string) (*model.Board, error) {
 }
 
 func (r RedisStore) DeleteBoardById(id string) {
-	// TODO
+	key := fmt.Sprintf("game:%s:board", id)
+	_, err := redis.Int(r.Do("DEL", key))
+	if err != nil {
+		log.Print("[ERROR] - Not Able to delete key:", key)
+	}
 }
 
 func (r RedisStore) DeleteGameById(id string) {
-	// TODO
+	key := fmt.Sprintf("game:%s", id)
+	_, err := redis.Int(r.Do("DEL", key))
+	if err != nil {
+		log.Print("[ERROR] - Not Able to delete key:", key)
+	}
 }
