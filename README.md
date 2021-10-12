@@ -4,7 +4,7 @@ Simple minesweeper REST Api developed using Go Lang, Gin, docker, redis and depl
 ## Run
 1. ```make up``` or ```docker-compose up```
 2. ```make run```
-3. Import `minesweeper-api.postman_collection.json` file on Postman
+3. Import `minesweeper-api.postman_collection.json` file on Postman and check the documentation for each request.
 
 ## Endpoints:
 There are endpoints exposed to create new game, get game and to update game by sending click or flag actions. 
