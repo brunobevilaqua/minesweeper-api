@@ -1,0 +1,1 @@
+web: cmd/minesweeper-api/main
