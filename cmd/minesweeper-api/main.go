@@ -27,7 +27,7 @@ func main() {
 	})
 
 	if port := os.Getenv("PORT"); port != "" {
-		router.Run(port)
+		router.Run(":" + port)
 	} else {
 		router.Run()
 	}
