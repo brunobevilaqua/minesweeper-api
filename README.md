@@ -30,7 +30,7 @@ MAX_DEFAULT_MINES = 8
 curl --location --request POST 'http://localhost:8080/api/games/' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"playerName": "Bruno Bevilaqua",
+	"playerName": "Bruno",
 	"numberOfMines": 8,
 	"numberOfColumns": 5,
 	"numberOfRows": 5
@@ -43,7 +43,7 @@ or
 curl --location --request POST 'https://calm-island-98291.herokuapp.com/api/games' \
 --header 'Content-Type: application/json' \
 --data-raw '{
-	"playerName": "Bruno Bevilaqua",
+	"playerName": "Bruno",
 	"numberOfMines": 8,
 	"numberOfColumns": 5,
 	"numberOfRows": 5
